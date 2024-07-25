@@ -1,6 +1,8 @@
 package com.route.data.api
 
 import android.util.Log
+import com.route.data.utils.AuthInterceptor
+import com.route.data.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +17,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 class DI {
 
     @Provides
+    fun provideToken(): String {
+        // Provide the token, possibly from a secure source
+        return Constants.Token
+    }
+
+    @Provides
+    fun provideAuthInterceptor(token: String): AuthInterceptor {
+        return AuthInterceptor(token)
+    }
+
+    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor {
             Log.e("retrofit", "Body: $it")
@@ -24,9 +37,10 @@ class DI {
     }
 
     @Provides
-    fun provideOKHTTPClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOKHTTPClient(loggingInterceptor: HttpLoggingInterceptor,authInterceptor: AuthInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
 

@@ -8,7 +8,5 @@ import retrofit2.http.Header
 interface WebService {
 
     @GET("/3/movie/popular")
-    suspend fun getPopularMovies(
-        @Header("Authorization") token: String =Constants.Token
-    ): PopularResponse
+    suspend fun getPopularMovies(): PopularResponse
 }
