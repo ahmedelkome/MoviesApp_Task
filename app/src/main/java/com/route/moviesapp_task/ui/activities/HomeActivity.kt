@@ -13,7 +13,9 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.route.moviesapp_task.R
 import com.route.moviesapp_task.base.activity.BaseActivity
 import com.route.moviesapp_task.databinding.ActivityHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.route.moviesapp_task.utils.model.ErrorMessage
 
-class BaseViewModel : ViewModel() {
+open class BaseViewModel : ViewModel() {
     var loadingLiveData = MutableLiveData<Boolean>(false)
     var errorLiveData = MutableLiveData<ErrorMessage>()
 }
