@@ -53,6 +53,17 @@ dependencies {
     implementation (libs.hilt.android)
     kapt (libs.hilt.compiler)
 
+    //Gild
+    implementation (libs.glide)
+
+    //LifeCycleViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    //LiveData
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    //mockk
+    testImplementation (libs.mockk)
+    androidTestImplementation (libs.mockk.android)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
