@@ -47,6 +47,11 @@ dependencies {
     //Logging Interceptor
     implementation(libs.logging.interceptor)
 
+    //Room DataBase
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
