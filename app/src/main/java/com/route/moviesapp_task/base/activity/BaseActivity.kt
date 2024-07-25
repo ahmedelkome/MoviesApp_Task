@@ -1,6 +1,7 @@
 package com.route.moviesapp_task.base.activity
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ abstract class BaseActivity<DB : ViewDataBinding> : AppCompatActivity() {
     private val viewModel: BaseViewModel by viewModels<BaseViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, getLayout())
         binding.lifecycleOwner = this
         observeLiveData()

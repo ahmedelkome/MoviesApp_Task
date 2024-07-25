@@ -13,7 +13,7 @@
         android:theme="@style/Theme.MoviesApp_Task"
         tools:targetApi="31">
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.activities.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".splash.SplashActivity"

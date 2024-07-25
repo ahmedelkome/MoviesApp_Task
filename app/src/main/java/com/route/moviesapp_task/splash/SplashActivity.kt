@@ -6,7 +6,7 @@ import android.os.Handler
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.route.moviesapp_task.databinding.ActivitySplashBinding
-import com.route.moviesapp_task.ui.HomeActivity
+import com.route.moviesapp_task.ui.activities.HomeActivity
 
 class SplashActivity : AppCompatActivity() {
     private var _binding: ActivitySplashBinding? = null
