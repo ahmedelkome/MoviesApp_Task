@@ -9,4 +9,5 @@ object Constants {
     const val DATATYPE = "Data_Type"
     const val DATA = "Data"
     const val MY_DATA_BASE = "MyDataBase"
+    const val EXPIRY_TIME = 4 * 3600L
 }

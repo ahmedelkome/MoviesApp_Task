@@ -10,6 +10,8 @@ class PopularOfflineDataSourceImpl @Inject constructor(
     private val popularDao: PopularDao
 ) : PopularOfflineDataSource {
     override suspend fun getAllPopular(): List<Popular> {
-        return safeData { popularDao.getAllPopular() }
+        return safeData {
+            popularDao.getAllPopular()
+        }
     }
 }
