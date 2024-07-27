@@ -1,6 +1,7 @@
 package com.route.data.models.search
 
 import com.google.gson.annotations.SerializedName
+import com.route.data.utils.Constants
 import com.route.domain.models.search.Search
 
 data class SearchDTo(
@@ -50,9 +51,10 @@ data class SearchDTo(
     fun toSearch(): Search {
         return Search(
             title = originalTitle,
-            posterPath = posterPath,
+            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath,
             overView = overview,
-            vote = voteAverage
+            vote = voteAverage,
+            releaseDate = releaseDate
         )
     }
 }
