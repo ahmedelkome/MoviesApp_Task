@@ -8,4 +8,5 @@ object Constants {
     const val SEARCH = "search"
     const val DATATYPE = "Data_Type"
     const val DATA = "Data"
+    const val MY_DATA_BASE = "MyDataBase"
 }

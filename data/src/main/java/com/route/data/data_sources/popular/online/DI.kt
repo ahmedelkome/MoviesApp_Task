@@ -1,4 +1,4 @@
-package com.route.data.data_sources.popular
+package com.route.data.data_sources.popular.online
 
 import com.route.data.contract.popular.online.PopularOnlineDataSource
 import dagger.Binds

@@ -54,7 +54,8 @@ data class PopularDTo(
             title = originalTitle,
             overView = overview,
             vote = voteAverage,
-            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath
+            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath,
+            timestamp = System.currentTimeMillis()
         )
     }
 }
