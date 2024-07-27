@@ -9,4 +9,7 @@ import com.route.moviesapp_task.databinding.FragmentTopRatedBinding
 
 class TopRatedFragment : BaseFragment<FragmentTopRatedBinding>(){
     override fun getLayout(): Int = R.layout.fragment_top_rated
+    override fun observeLiveData() {
+
+    }
 }

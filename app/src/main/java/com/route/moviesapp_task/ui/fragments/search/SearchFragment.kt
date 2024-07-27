@@ -12,4 +12,7 @@ import com.route.moviesapp_task.databinding.FragmentSearchBinding
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun getLayout(): Int = R.layout.fragment_search
+    override fun observeLiveData() {
+
+    }
 }

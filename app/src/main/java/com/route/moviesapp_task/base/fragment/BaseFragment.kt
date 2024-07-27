@@ -1,6 +1,7 @@
 package com.route.moviesapp_task.base.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import com.route.moviesapp_task.base.viewmodel.BaseViewModel
 abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
     lateinit var binding: DB
     var dialog: AlertDialog? = null
-    private val viewModel: BaseViewModel by viewModels<BaseViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,63 +30,44 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
-        observeLiveData()
     }
 
     abstract fun getLayout(): Int
 
-    open fun observeLiveData() {
-        viewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            if (it == true) {
-                showLoading()
-            } else {
-                hideLoading()
-            }
-        }
-        viewModel.errorLiveData.observe(viewLifecycleOwner) {
-            showError(
-                title = it.title!!,
-                message = it.message!!,
-                posTitle = it.posTitle!!,
-                posClick = it.posClick!!,
-                negaTitle = it.negaTitle!!,
-                negaClick = it.negaClick!!
-            )
-        }
-    }
+    abstract fun observeLiveData()
 
-    private fun showLoading() {
-        dialog = AlertDialog.Builder(requireActivity())
+    open fun showLoading() {
+        val builder = AlertDialog.Builder(requireActivity())
             .setView(R.layout.loading_layout)
-            .create()
+        dialog = builder.create()
         dialog?.let { it.show() }
     }
 
-    private fun hideLoading() {
+    open fun hideLoading() {
         dialog?.let {
             it.dismiss()
         }
     }
 
-    private fun showError(
-        title: String,
-        message: String,
-        posTitle: String,
-        posClick: () -> Unit,
-        negaTitle: String,
-        negaClick: () -> Unit
+    open fun showError(
+        title: String? = null,
+        message: String? = null,
+        posTitle: String? = null,
+        posClick: (() -> Unit)? = null,
+        negaTitle: String? = null,
+        negaClick: (() -> Unit)? = null
 
     ) {
         val dialogError = AlertDialog.Builder(requireActivity())
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(posTitle) { dialog, int ->
-                posClick.invoke()
+                posClick?.invoke()
             }
             .setNegativeButton(negaTitle) { dialog, int ->
-                negaClick.invoke()
+                negaClick?.invoke()
             }
-            .create()
-        dialogError.show()
+        dialogError.create()
+            .show()
     }
 }

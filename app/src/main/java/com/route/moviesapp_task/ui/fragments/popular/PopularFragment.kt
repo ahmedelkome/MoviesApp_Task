@@ -2,6 +2,7 @@ package com.route.moviesapp_task.ui.fragments.popular
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>() {
     private val popularViewModel:PopularViewModel by viewModels<PopularViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner=this
         popularViewModel.getPopularMovies()
         observeLiveData()
     }
