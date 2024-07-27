@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_topRatedFragment_to_popularFragment"
             app:destination="@id/popularFragment" />
+        <action
+            android:id="@+id/action_topRatedFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

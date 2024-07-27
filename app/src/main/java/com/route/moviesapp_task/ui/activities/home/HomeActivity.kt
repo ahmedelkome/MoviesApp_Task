@@ -22,18 +22,32 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun initSearch() {
         binding.searchIcon.setOnClickListener {
-            navController.navigate(R.id.action_popularFragment_to_searchFragment)
-            visibleTabLayout(false)
+            val currentFragmentId = getCurrentFragmentId()
+
+            // Determine which action to use based on the current fragment
+            val action = when (currentFragmentId) {
+                R.id.popularFragment -> R.id.action_popularFragment_to_searchFragment
+                R.id.topRatedFragment -> R.id.action_topRatedFragment_to_searchFragment
+                else -> null
+            }
+
+            // Navigate using the appropriate action if defined
+            action?.let {
+                navController.navigate(it)
+                visibleTabLayout(visible = false)
+            }
+
         }
     }
 
-private fun visibleTabLayout(visible:Boolean){
-    if (visible){
-        binding.tabLayout.isVisible = visible
-    }else if (!visible){
-        binding.tabLayout.isVisible = visible
+    private fun visibleTabLayout(visible: Boolean) {
+        if (visible) {
+            binding.tabLayout.isVisible = visible
+        } else if (!visible) {
+            binding.tabLayout.isVisible = visible
+        }
     }
-}
+
     private fun initTabs() {
         val popularTab = binding.tabLayout.newTab()
         val topRatedTap = binding.tabLayout.newTab()
@@ -68,6 +82,11 @@ private fun visibleTabLayout(visible:Boolean){
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
+
+    private fun getCurrentFragmentId(): Int? {
+        return navController.currentDestination?.id
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

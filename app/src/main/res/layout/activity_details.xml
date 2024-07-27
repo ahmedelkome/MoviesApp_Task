@@ -63,7 +63,7 @@
             android:id="@+id/vote_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{popular != null ? popular.vote : topRated != null ? topRated.vote : search != null ? search.vote : null}"
+            android:text="@{popular != null ? popular.vote.toString() : topRated != null ? topRated.vote.toString() : search != null ? search.vote.toString() : null}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/star_icon_details"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package com.route.moviesapp_task.ui.activities.details
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,7 +37,7 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
             }
 
             Constants.SEARCH -> {
-                val search = intent.getParcelableExtra<Search>(Constants.SEARCH)
+                val search = intent.getParcelableExtra<Search>(Constants.DATA)!!
                 binding.search = search
             }
         }
