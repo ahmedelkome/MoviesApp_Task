@@ -1,13 +1,16 @@
 package com.route.moviesapp_task.ui.fragments.top_rated
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.route.data.utils.Constants
 import com.route.domain.models.toprated.TopRated
 import com.route.moviesapp_task.R
 import com.route.moviesapp_task.base.fragment.BaseFragment
 import com.route.moviesapp_task.databinding.FragmentTopRatedBinding
+import com.route.moviesapp_task.ui.activities.details.DetailsActivity
 import com.route.moviesapp_task.ui.fragments.popular.adapter.TopRatedAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +29,9 @@ class TopRatedFragment : BaseFragment<FragmentTopRatedBinding>() {
     }
 
     private fun initRecycler() {
-        adapter = TopRatedAdapter(listOf())
+        adapter = TopRatedAdapter(listOf()){topRated,position->
+
+        }
         binding.rvTopRated.adapter = adapter
     }
 
@@ -55,6 +60,12 @@ class TopRatedFragment : BaseFragment<FragmentTopRatedBinding>() {
 
     private fun bindListOfTopRated(list: List<TopRated>) {
         adapter.updateList(list)
+        adapter.onTopRateClicked = {topRated,position->
+            val intent = Intent(requireActivity(),DetailsActivity::class.java)
+            intent.putExtra(Constants.DATATYPE,Constants.TOPRATED)
+            intent.putExtra(Constants.DATA,topRated)
+            startActivity(intent)
+        }
         binding.rvTopRated.adapter = adapter
     }
 

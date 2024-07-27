@@ -9,12 +9,15 @@ import com.route.domain.models.toprated.TopRated
 import com.route.moviesapp_task.databinding.ItemTopratedBinding
 
 class TopRatedAdapter
-    (private var listOfTopRated: List<TopRated>) : Adapter<TopRatedAdapter.MyViewHolder>() {
+    (private var listOfTopRated: List<TopRated>,var onTopRateClicked:(topRated:TopRated,position:Int)->Unit) : Adapter<TopRatedAdapter.MyViewHolder>() {
     var myDiffUtil: MyDiffUtil? = null
 
-    class MyViewHolder(val binding: ItemTopratedBinding) : ViewHolder(binding.root) {
-        fun bind(topRated: TopRated) {
+   inner class MyViewHolder(val binding: ItemTopratedBinding) : ViewHolder(binding.root) {
+        fun bind(topRated: TopRated,position:Int) {
             binding.topRated = topRated
+            binding.mainTop.setOnClickListener {
+                onTopRateClicked.invoke(topRated,position)
+            }
         }
     }
 
@@ -28,7 +31,7 @@ class TopRatedAdapter
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val topRated = listOfTopRated[position]
-        holder.bind(topRated)
+        holder.bind(topRated,position)
     }
 
     fun updateList(newListOfTopRated: List<TopRated>) {

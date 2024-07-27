@@ -11,12 +11,15 @@ import com.route.moviesapp_task.databinding.ItemMoviesBinding
 import com.route.moviesapp_task.databinding.ItemSearchBinding
 
 class SearchAdapter
-    (private var listOfSearch: List<Search>) : Adapter<SearchAdapter.MyViewHolder>() {
+    (private var listOfSearch: List<Search>,var onSearchClick:(search:Search,position:Int)->Unit) : Adapter<SearchAdapter.MyViewHolder>() {
     var myDiffUtil: MyDiffUtil? = null
 
-    class MyViewHolder(val binding: ItemSearchBinding) : ViewHolder(binding.root) {
-        fun bind(search: Search) {
+   inner class MyViewHolder(val binding: ItemSearchBinding) : ViewHolder(binding.root) {
+        fun bind(search: Search,position:Int) {
             binding.search = search
+            binding.mainSearch.setOnClickListener {
+                onSearchClick.invoke(search,position)
+            }
         }
     }
 
@@ -30,7 +33,7 @@ class SearchAdapter
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val search = listOfSearch[position]
-        holder.bind(search)
+        holder.bind(search,position)
     }
 
     fun updateList(newListOfSearch: List<Search>) {

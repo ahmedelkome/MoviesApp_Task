@@ -1,5 +1,6 @@
 package com.route.moviesapp_task.ui.fragments.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.viewModels
+import com.route.data.utils.Constants
 import com.route.domain.models.search.Search
 import com.route.moviesapp_task.R
 import com.route.moviesapp_task.base.fragment.BaseFragment
 import com.route.moviesapp_task.databinding.FragmentSearchBinding
+import com.route.moviesapp_task.ui.activities.details.DetailsActivity
 import com.route.moviesapp_task.ui.fragments.popular.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +45,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun initRecycler() {
-        adapter = SearchAdapter(listOf())
+        adapter = SearchAdapter(listOf()){search,position->
+
+        }
         binding.rvSearch.adapter = adapter
     }
 
@@ -72,6 +77,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun bindListOfSearch(list: List<Search>) {
         adapter.updateList(list)
+        adapter.onSearchClick = {search,position->
+            val intent = Intent(requireActivity(),DetailsActivity::class.java)
+            intent.putExtra(Constants.DATATYPE,Constants.SEARCH)
+            intent.putExtra(Constants.DATA,search)
+            startActivity(intent)
+        }
         binding.rvSearch.adapter = adapter
     }
 }
