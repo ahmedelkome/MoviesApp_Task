@@ -14,13 +14,15 @@
         android:paddingTop="10dp"
         tools:context=".ui.fragments.popular.PopularFragment">
 
-        <com.google.android.material.search.SearchBar
+        <SearchView
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            android:layout_margin="15dp"
             android:hint="Search ..."
             app:layout_constraintBottom_toTopOf="@id/rv_search"
             />

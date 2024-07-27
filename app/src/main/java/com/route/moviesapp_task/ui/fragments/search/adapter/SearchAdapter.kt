@@ -6,45 +6,43 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.route.domain.models.popular.Popular
+import com.route.domain.models.search.Search
 import com.route.moviesapp_task.databinding.ItemMoviesBinding
+import com.route.moviesapp_task.databinding.ItemSearchBinding
 
-class PopularAdapter
-    (private var listOfPopular: List<Popular>, var onMoviesClick: (popular:Popular, position:Int) -> Unit) :
-    Adapter<PopularAdapter.MyViewHolder>() {
+class SearchAdapter
+    (private var listOfSearch: List<Search>) : Adapter<SearchAdapter.MyViewHolder>() {
     var myDiffUtil: MyDiffUtil? = null
 
-    inner class MyViewHolder(val binding: ItemMoviesBinding) : ViewHolder(binding.root) {
-        fun bind(popular: Popular,position:Int) {
-            binding.popular = popular
-            binding.main.setOnClickListener {
-                onMoviesClick.invoke(popular,position)
-            }
+    class MyViewHolder(val binding: ItemSearchBinding) : ViewHolder(binding.root) {
+        fun bind(search: Search) {
+            binding.search = search
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val binding: ItemMoviesBinding =
-            ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemSearchBinding =
+            ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = listOfPopular.size
+    override fun getItemCount(): Int = listOfSearch.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val popular = listOfPopular[position]
-        holder.bind(popular,position)
+        val search = listOfSearch[position]
+        holder.bind(search)
     }
 
-    fun updateList(newListOfPopular: List<Popular>) {
-        myDiffUtil = MyDiffUtil(listOfPopular, newListOfPopular)
+    fun updateList(newListOfSearch: List<Search>) {
+        myDiffUtil = MyDiffUtil(listOfSearch, newListOfSearch)
         val diffResult = DiffUtil.calculateDiff(myDiffUtil!!)
-        listOfPopular = newListOfPopular
+        listOfSearch = newListOfSearch
         diffResult.dispatchUpdatesTo(this)
     }
 
     class MyDiffUtil(
-        private val oldList: List<Popular>,
-        private val newList: List<Popular>
+        private val oldList: List<Search>,
+        private val newList: List<Search>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = oldList.size
 

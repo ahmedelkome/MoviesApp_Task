@@ -1,15 +1,16 @@
 package com.route.moviesapp_task.ui.fragments.popular
 
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.route.data.utils.Constants
 import com.route.domain.models.popular.Popular
 import com.route.moviesapp_task.R
 import com.route.moviesapp_task.base.fragment.BaseFragment
 import com.route.moviesapp_task.databinding.FragmentPopularBinding
+import com.route.moviesapp_task.ui.activities.details.DetailsActivity
 import com.route.moviesapp_task.ui.fragments.popular.adapter.PopularAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +33,12 @@ class PopularFragment : BaseFragment<FragmentPopularBinding>() {
     }
 
     private fun initRecycler() {
-        adapter = PopularAdapter(listOf())
+        adapter = PopularAdapter(listOf()) { popular, _ ->
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            intent.putExtra(Constants.DATATYPE, Constants.POPULAR)
+            intent.putExtra(Constants.DATA, popular)
+            startActivity(intent)
+        }
         binding.rvPopular.adapter = adapter
     }
 

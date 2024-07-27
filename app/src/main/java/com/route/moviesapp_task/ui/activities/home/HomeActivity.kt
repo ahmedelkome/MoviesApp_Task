@@ -1,15 +1,10 @@
-package com.route.moviesapp_task.ui.activities
+package com.route.moviesapp_task.ui.activities.home
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.route.moviesapp_task.R
 import com.route.moviesapp_task.base.activity.BaseActivity
 import com.route.moviesapp_task.databinding.ActivityHomeBinding
