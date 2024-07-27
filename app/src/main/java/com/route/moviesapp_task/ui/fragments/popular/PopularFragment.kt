@@ -14,19 +14,36 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PopularFragment : BaseFragment<FragmentPopularBinding>() {
-    private val popularViewModel:PopularViewModel by viewModels<PopularViewModel>()
+    private val popularViewModel: PopularViewModel by viewModels<PopularViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner=this
         popularViewModel.getPopularMovies()
+        binding.lifecycleOwner = this
         observeLiveData()
     }
 
     override fun observeLiveData() {
-        super.observeLiveData()
-        popularViewModel.popularList.observe(viewLifecycleOwner){
+        popularViewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            if (it == true) {
+                showLoading()
+            } else {
+                hideLoading()
+            }
+        }
+        popularViewModel.errorLiveData.observe(viewLifecycleOwner) {
+            showError(
+                title = it.title,
+                message = it.message,
+                posTitle = it.posTitle,
+                posClick = it.posClick,
+                negaTitle = it.negaTitle,
+                negaClick = it.negaClick
+            )
+        }
+        popularViewModel.popularList.observe(viewLifecycleOwner) {
 
         }
     }
+
     override fun getLayout(): Int = R.layout.fragment_popular
 }

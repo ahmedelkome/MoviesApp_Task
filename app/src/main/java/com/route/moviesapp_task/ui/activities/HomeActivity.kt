@@ -28,11 +28,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun initSearch() {
         binding.searchIcon.setOnClickListener {
             navController.navigate(R.id.action_popularFragment_to_searchFragment)
-            binding.tabLayout.isVisible = false
+            visibleTabLayout(false)
         }
     }
 
-
+private fun visibleTabLayout(visible:Boolean){
+    if (visible){
+        binding.tabLayout.isVisible = visible
+    }else if (!visible){
+        binding.tabLayout.isVisible = visible
+    }
+}
     private fun initTabs() {
         val popularTab = binding.tabLayout.newTab()
         val topRatedTap = binding.tabLayout.newTab()
@@ -66,5 +72,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        visibleTabLayout(true)
     }
 }
