@@ -19,7 +19,7 @@ class DI {
     @Provides
     fun provideToken(): String {
         // Provide the token, possibly from a secure source
-        return Constants.Token
+        return Constants.TOKEN
     }
 
     @Provides

@@ -9,4 +9,6 @@ interface WebService {
 
     @GET("/3/movie/popular")
     suspend fun getPopularMovies(): PopularResponse
+
+    @GET("")
 }

@@ -1,6 +1,7 @@
 package com.route.data.models.popular
 
 import com.google.gson.annotations.SerializedName
+import com.route.data.utils.Constants
 import com.route.domain.models.popular.Popular
 
 
@@ -53,7 +54,7 @@ data class PopularDTo(
             title = originalTitle,
             overView = overview,
             vote = voteAverage,
-            posterPath = posterPath
+            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath
         )
     }
 }
