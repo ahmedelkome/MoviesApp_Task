@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/selected_tab" android:state_selected="true"
+        android:state_checked="true" android:state_checkable="true" />
+
+    <item android:drawable="@drawable/un_selected_tab" android:state_checkable="false"
+        android:state_checked="false" android:state_selected="false"/>
+    <item android:drawable="@drawable/selected_tab"/>
+</selector>

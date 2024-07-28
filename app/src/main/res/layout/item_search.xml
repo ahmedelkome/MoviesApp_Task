@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="search"
+            type="com.route.domain.models.search.Search" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/poster_movies_search"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            imageUrl="@{search.posterPath}"
+            tools:src="@drawable/icon_demo" />
+
+        <TextView
+            android:id="@+id/search_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{search.title}"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/poster_movies_search"
+            app:layout_constraintTop_toTopOf="@id/poster_movies_search"
+            tools:text="kmfaldkfakfasfnasfn" />
+
+        <TextView
+            android:id="@+id/date_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:text="@{search.releaseDate}"
+            app:layout_constraintStart_toStartOf="@id/search_name"
+            app:layout_constraintTop_toBottomOf="@id/search_name"
+            tools:text="dasfsakfasnfknaskfnasfnaksfnkasfnaskfnaskfknfask" />
+
+        <TextView
+            android:id="@+id/overview_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{search.overView}"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="@id/search_name"
+            app:layout_constraintTop_toBottomOf="@id/date_search"
+            tools:text="askfdmaskfmlamfkamfkamkamfkamkasfkmakf" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/poster_movies_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="15dp"
+            android:background="@color/white"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
