@@ -11,7 +11,7 @@ import com.route.domain.models.toprated.TopRated
 interface TopRatedDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllTopRated(listOfPopular:List<TopRated>)
+    suspend fun insertAllTopRated(listOfTopRated:List<TopRated>)
 
     @Query("SELECT * FROM TopRated_Table")
     suspend fun getAllTopRated():List<TopRated>

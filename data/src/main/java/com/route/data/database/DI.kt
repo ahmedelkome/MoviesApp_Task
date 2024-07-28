@@ -3,6 +3,7 @@ package com.route.data.database
 import android.content.Context
 import androidx.room.Room
 import com.route.data.database.daos.popular.PopularDao
+import com.route.data.database.daos.search.SearchDao
 import com.route.data.database.daos.toprated.TopRatedDao
 import com.route.data.utils.Constants
 import dagger.Module
@@ -36,5 +37,11 @@ class DI {
     @Singleton
     fun provideTopRatedDao(database: MyDataBase): TopRatedDao {
         return database.topRatedDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchDao(database: MyDataBase): SearchDao {
+        return database.searchDao()
     }
 }

@@ -1,4 +1,4 @@
-package com.route.data.data_sources.search
+package com.route.data.data_sources.search.online
 
 import com.route.data.contract.search.online.SearchOnlineDataSource
 import dagger.Binds

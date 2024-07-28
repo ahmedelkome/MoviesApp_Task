@@ -54,7 +54,8 @@ data class SearchDTo(
             posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath,
             overView = overview,
             vote = voteAverage,
-            releaseDate = releaseDate
+            releaseDate = releaseDate,
+            timestamp = System.currentTimeMillis()
         )
     }
 }

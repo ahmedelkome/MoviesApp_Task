@@ -14,9 +14,7 @@ class PopularOnlineDataSourceImpl @Inject constructor(
     private val myDataBase: MyDataBase
 ) : PopularOnlineDataSource {
     override suspend fun getPopularMovies(): List<Popular> {
-        myDataBase.popularDao().replaceData(webService.getPopularMovies().results?.filterNotNull()!!.map {
-            it.toPopular()
-        })
+
         val list = myDataBase.popularDao().getAllPopular()
         val currentTime = System.currentTimeMillis() / 1000
         val timeDifferences = currentTime - list.get(0).timestamp
@@ -24,10 +22,9 @@ class PopularOnlineDataSourceImpl @Inject constructor(
             list
         } else {
             myDataBase.popularDao().invalidateCache(Constants.EXPIRY_TIME)
-            myDataBase.popularDao().insertAllPopular(
-                webService.getPopularMovies().results?.filterNotNull()!!.map {
-                    it.toPopular()
-                })
+            myDataBase.popularDao().replaceData(webService.getPopularMovies().results?.filterNotNull()!!.map {
+                it.toPopular()
+            })
         }
         return safeData {
             webService.getPopularMovies().results?.filterNotNull()!!.map {
