@@ -53,7 +53,8 @@ data class TopRatedDTo(
             title = originalName,
             overView = overview,
             vote = voteAverage,
-            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath
+            posterPath = Constants.ORIGINALPATHFORIMAGES + posterPath,
+            timestamp = System.currentTimeMillis()
         )
     }
 }

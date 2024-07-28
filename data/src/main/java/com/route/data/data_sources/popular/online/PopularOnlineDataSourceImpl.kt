@@ -18,7 +18,7 @@ class PopularOnlineDataSourceImpl @Inject constructor(
         })
         val list = popularDao.getAllPopular()
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = list.map { currentTime - it.timestamp } as Long
+        val timeDifferences = list.get(0).timestamp
         if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             list
         } else {

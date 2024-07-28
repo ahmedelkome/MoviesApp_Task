@@ -16,7 +16,10 @@ class PopularRepositoryImpl @Inject constructor(
 ) : PopularRepository {
     override suspend fun getPopularMovies(): Flow<ResultWrapper<List<Popular>>> {
         return toflow {
-            if (ConnectivityChecker.isNetworkAvailable() || offlineDataSource.getAllPopular()
+            if (ConnectivityChecker.isNetworkAvailable()
+            ) {
+                onlineDataSource.getPopularMovies()
+            } else if (offlineDataSource.getAllPopular()
                     .isEmpty()
             ) {
                 onlineDataSource.getPopularMovies()

@@ -1,4 +1,4 @@
-package com.route.data.data_sources.toprated
+package com.route.data.data_sources.toprated.online
 
 import com.route.data.contract.toprated.online.TopRatedOnlineDataSource
 import dagger.Binds

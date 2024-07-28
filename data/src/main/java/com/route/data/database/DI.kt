@@ -3,6 +3,7 @@ package com.route.data.database
 import android.content.Context
 import androidx.room.Room
 import com.route.data.database.daos.popular.PopularDao
+import com.route.data.database.daos.toprated.TopRatedDao
 import com.route.data.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -21,12 +22,19 @@ class DI {
         return Room.databaseBuilder(
             context, MyDataBase::class.java,
             Constants.MY_DATA_BASE
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     @Singleton
     fun providePopularDao(database: MyDataBase): PopularDao {
         return database.popularDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTopRatedDao(database: MyDataBase): TopRatedDao {
+        return database.topRatedDao()
     }
 }
