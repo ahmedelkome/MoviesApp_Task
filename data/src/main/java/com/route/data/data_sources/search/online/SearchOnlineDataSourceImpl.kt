@@ -19,15 +19,16 @@ class SearchOnlineDataSourceImpl @Inject constructor(
         val timeDifferences = currentTime - list.last().timestamp
         if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             return list
-        } else return safeData{
+        } else return safeData {
             myDataBase.searchDao().invalidateCache(Constants.EXPIRY_TIME)
             myDataBase.searchDao()
-                .replaceData(webService.getSearchMovies(search).results?.filterNotNull()!!.map {
+                .insertAllSearch(webService.getSearchMovies(search).results?.filterNotNull()!!.map {
                     it.toSearch()
                 })
-                webService.getSearchMovies(search = search).results?.filterNotNull()!!.map {
-                    it.toSearch()
-                }
+            myDataBase.searchDao().updateCacheTimestamp(currentTime)
+            webService.getSearchMovies(search = search).results?.filterNotNull()!!.map {
+                it.toSearch()
             }
         }
     }
+}

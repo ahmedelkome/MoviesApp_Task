@@ -19,12 +19,13 @@ class TopRatedOnlineDataSourceImpl @Inject constructor(
         val timeDifferences = currentTime - list.last().timestamp
         if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             return list
-        } else return safeData{
+        } else return safeData {
             myDataBase.topRatedDao().invalidateCache(Constants.EXPIRY_TIME)
             myDataBase.topRatedDao()
-                .replaceData(webService.getTopRatedMovies().results?.filterNotNull()!!.map {
+                .insertAllTopRated(webService.getTopRatedMovies().results?.filterNotNull()!!.map {
                     it.toRated()
                 })
+            myDataBase.topRatedDao().updateCacheTimestamp(currentTime)
             webService.getTopRatedMovies().results?.filterNotNull()!!.map {
                 it.toRated()
             }

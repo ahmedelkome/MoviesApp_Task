@@ -23,6 +23,9 @@ interface PopularDao {
     @Query("DELETE FROM Popular_Table")
     suspend fun clearList()
 
+    @Query("INSERT OR REPLACE INTO Popular_Table (id, timestamp) VALUES (1, :timestamp)")
+    suspend fun updateCacheTimestamp(timestamp: Long)
+
     @Transaction
     suspend fun replaceData(data: List<Popular>) {
         clearList()

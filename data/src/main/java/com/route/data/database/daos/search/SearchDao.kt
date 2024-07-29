@@ -13,13 +13,16 @@ interface SearchDao {
     suspend fun insertAllSearch(listOfSearch: List<Search>)
 
     @Query("SELECT * FROM Search_Table WHERE title = :title")
-    suspend fun getAllSearch(title:String): List<Search>
+    suspend fun getAllSearch(title: String): List<Search>
 
     @Query("DELETE FROM Search_Table WHERE (strftime('%s', 'now') - timestamp) >= :expiryTime")
     suspend fun invalidateCache(expiryTime: Long)
 
     @Query("DELETE FROM Search_Table")
     suspend fun clearList()
+
+    @Query("INSERT OR REPLACE INTO Search_Table (id, timestamp) VALUES (1, :timestamp)")
+    suspend fun updateCacheTimestamp(timestamp: Long)
 
     @Transaction
     suspend fun replaceData(data: List<Search>) {

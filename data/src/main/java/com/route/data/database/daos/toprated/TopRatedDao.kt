@@ -11,16 +11,19 @@ import com.route.domain.models.toprated.TopRated
 interface TopRatedDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllTopRated(listOfTopRated:List<TopRated>)
+    suspend fun insertAllTopRated(listOfTopRated: List<TopRated>)
 
     @Query("SELECT * FROM TopRated_Table")
-    suspend fun getAllTopRated():List<TopRated>
+    suspend fun getAllTopRated(): List<TopRated>
 
     @Query("DELETE FROM TopRated_Table WHERE (strftime('%s', 'now') - timestamp) >= :expiryTime")
     suspend fun invalidateCache(expiryTime: Long)
 
     @Query("DELETE FROM TopRated_Table")
     suspend fun clearList()
+
+    @Query("INSERT OR REPLACE INTO TopRated_Table (id, timestamp) VALUES (1, :timestamp)")
+    suspend fun updateCacheTimestamp(timestamp: Long)
 
     @Transaction
     suspend fun replaceData(data: List<TopRated>) {

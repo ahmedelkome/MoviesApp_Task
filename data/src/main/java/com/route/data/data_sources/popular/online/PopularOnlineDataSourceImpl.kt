@@ -23,9 +23,10 @@ class PopularOnlineDataSourceImpl @Inject constructor(
             return safeData {
                 myDataBase.popularDao().invalidateCache(Constants.EXPIRY_TIME)
                 myDataBase.popularDao()
-                    .replaceData(webService.getPopularMovies().results?.filterNotNull()!!.map {
+                    .insertAllPopular(webService.getPopularMovies().results?.filterNotNull()!!.map {
                         it.toPopular()
                     })
+                myDataBase.popularDao().updateCacheTimestamp(currentTime)
                 webService.getPopularMovies().results?.filterNotNull()!!.map {
                     it.toPopular()
                 }
