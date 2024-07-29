@@ -14,20 +14,17 @@ class TopRatedOnlineDataSourceImpl @Inject constructor(
     private val myDataBase: MyDataBase
 ) : TopRatedOnlineDataSource {
     override suspend fun getTopRatedMovies(): List<TopRated> {
-
         val list = myDataBase.topRatedDao().getAllTopRated()
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = currentTime - list.get(0).timestamp
+        val timeDifferences = currentTime - list.last().timestamp
         if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
-            list
-        } else {
+            return list
+        } else return safeData{
             myDataBase.topRatedDao().invalidateCache(Constants.EXPIRY_TIME)
             myDataBase.topRatedDao()
                 .replaceData(webService.getTopRatedMovies().results?.filterNotNull()!!.map {
                     it.toRated()
                 })
-        }
-        return safeData {
             webService.getTopRatedMovies().results?.filterNotNull()!!.map {
                 it.toRated()
             }

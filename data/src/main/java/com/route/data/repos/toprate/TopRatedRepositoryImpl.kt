@@ -16,10 +16,8 @@ class TopRatedRepositoryImpl @Inject constructor(
 ) : TopRatedRepository {
     override suspend fun getTopRatedMovies(): Flow<ResultWrapper<List<TopRated>>> {
         return toflow {
-            if (ConnectivityChecker.isNetworkAvailable()) {
-                topRatedOnlineDataSource.getTopRatedMovies()
-            } else if (topRatedOfflineDataSource.getAllTopRated()
-                    .isEmpty()
+            if (topRatedOfflineDataSource.getAllTopRated()
+                    .isNullOrEmpty()
             ) {
                 topRatedOnlineDataSource.getTopRatedMovies()
             } else {

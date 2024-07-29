@@ -16,7 +16,7 @@ class SearchRepositoryImpl @Inject constructor(
 ) : SearchRepository {
     override suspend fun getSearchMovies(search: String): Flow<ResultWrapper<List<Search>>> {
         return toflow {
-            if (ConnectivityChecker.isNetworkAvailable()) {
+            if (searchOfflineDataSource.getAllSearch(search).isNullOrEmpty()) {
                 searchOnlineDataSource.getSearchMovies(search)
             } else {
                 searchOfflineDataSource.getAllSearch(search)

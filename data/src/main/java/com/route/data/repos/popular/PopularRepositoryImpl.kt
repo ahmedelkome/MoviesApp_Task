@@ -1,5 +1,6 @@
 package com.route.data.repos.popular
 
+import android.util.Log
 import com.route.data.contract.popular.offline.PopularOfflineDataSource
 import com.route.data.contract.popular.online.PopularOnlineDataSource
 import com.route.data.utils.ConnectivityChecker
@@ -16,17 +17,13 @@ class PopularRepositoryImpl @Inject constructor(
 ) : PopularRepository {
     override suspend fun getPopularMovies(): Flow<ResultWrapper<List<Popular>>> {
         return toflow {
-            if (ConnectivityChecker.isNetworkAvailable()
-            ) {
-                onlineDataSource.getPopularMovies()
-            } else if (offlineDataSource.getAllPopular()
-                    .isEmpty()
+            if (offlineDataSource.getAllPopular()
+                    .isNullOrEmpty()
             ) {
                 onlineDataSource.getPopularMovies()
             } else {
                 offlineDataSource.getAllPopular()
             }
-
         }
     }
 }
