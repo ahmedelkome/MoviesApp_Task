@@ -16,18 +16,22 @@ class SearchOnlineDataSourceImpl @Inject constructor(
     override suspend fun getSearchMovies(search: String): List<Search> {
         val list = myDataBase.searchDao().getAllSearch(search)
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = currentTime - list.last().timestamp
-        if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
-            return list
-        } else return safeData {
-            myDataBase.searchDao().invalidateCache(Constants.EXPIRY_TIME)
-            myDataBase.searchDao()
-                .insertAllSearch(webService.getSearchMovies(search).results?.filterNotNull()!!.map {
+        val timeDifferences = currentTime - (list[0].timestamp / 1000)
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
+            list
+        } else {
+            safeData {
+                myDataBase.searchDao().clearList()
+                val isList = webService.getSearchMovies(search).results?.filterNotNull()!!.map {
                     it.toSearch()
-                })
-            myDataBase.searchDao().updateCacheTimestamp(currentTime)
-            webService.getSearchMovies(search = search).results?.filterNotNull()!!.map {
-                it.toSearch()
+                }
+                Log.e("TAG", "getPopularMovies: list${isList}")
+                myDataBase.searchDao().invalidateCache(Constants.EXPIRY_TIME)
+                myDataBase.searchDao()
+                    .insertAllSearch(
+                        isList
+                    )
+                isList
             }
         }
     }

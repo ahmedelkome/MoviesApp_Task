@@ -1,5 +1,6 @@
 package com.route.data.data_sources.toprated.online
 
+import android.util.Log
 import com.route.data.api.WebService
 import com.route.data.contract.toprated.online.TopRatedOnlineDataSource
 import com.route.data.database.MyDataBase
@@ -16,18 +17,22 @@ class TopRatedOnlineDataSourceImpl @Inject constructor(
     override suspend fun getTopRatedMovies(): List<TopRated> {
         val list = myDataBase.topRatedDao().getAllTopRated()
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = currentTime - list.last().timestamp
-        if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
-            return list
-        } else return safeData {
-            myDataBase.topRatedDao().invalidateCache(Constants.EXPIRY_TIME)
-            myDataBase.topRatedDao()
-                .insertAllTopRated(webService.getTopRatedMovies().results?.filterNotNull()!!.map {
+        val timeDifferences = currentTime - (list[0].timestamp / 1000)
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
+            list
+        } else {
+            safeData {
+                myDataBase.topRatedDao().clearList()
+                val isList = webService.getTopRatedMovies().results?.filterNotNull()!!.map {
                     it.toRated()
-                })
-            myDataBase.topRatedDao().updateCacheTimestamp(currentTime)
-            webService.getTopRatedMovies().results?.filterNotNull()!!.map {
-                it.toRated()
+                }
+                Log.e("TAG", "getPopularMovies: list${isList}")
+                myDataBase.topRatedDao().invalidateCache(Constants.EXPIRY_TIME)
+                myDataBase.topRatedDao()
+                    .insertAllTopRated(
+                        isList
+                    )
+                isList
             }
         }
     }

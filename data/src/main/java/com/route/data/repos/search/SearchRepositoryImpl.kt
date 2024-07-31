@@ -3,6 +3,7 @@ package com.route.data.repos.search
 import com.route.data.contract.search.offline.SearchOfflineDataSource
 import com.route.data.contract.search.online.SearchOnlineDataSource
 import com.route.data.utils.ConnectivityChecker
+import com.route.data.utils.Constants
 import com.route.domain.common.ResultWrapper
 import com.route.domain.contract.repository.search_repo.SearchRepository
 import com.route.domain.models.search.Search
@@ -15,8 +16,11 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchOfflineDataSource: SearchOfflineDataSource
 ) : SearchRepository {
     override suspend fun getSearchMovies(search: String): Flow<ResultWrapper<List<Search>>> {
+        val list = searchOfflineDataSource.getAllSearch(search)
+        val currenttime = System.currentTimeMillis() /1000
+        val diff = currenttime - list[0].timestamp
         return toflow {
-            if (searchOfflineDataSource.getAllSearch(search).isNullOrEmpty()) {
+            if (diff < Constants.EXPIRY_TIME) {
                 searchOnlineDataSource.getSearchMovies(search)
             } else {
                 searchOfflineDataSource.getAllSearch(search)

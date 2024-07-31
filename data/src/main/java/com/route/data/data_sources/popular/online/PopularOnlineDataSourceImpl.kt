@@ -1,5 +1,6 @@
 package com.route.data.data_sources.popular.online
 
+import android.util.Log
 import com.route.data.api.WebService
 import com.route.data.contract.popular.online.PopularOnlineDataSource
 import com.route.data.database.MyDataBase
@@ -16,21 +17,26 @@ class PopularOnlineDataSourceImpl @Inject constructor(
     override suspend fun getPopularMovies(): List<Popular> {
         val list = myDataBase.popularDao().getAllPopular()
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = currentTime - list.last().timestamp
-        if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
-            return list
+        val timeDifferences = currentTime - (list[0].timestamp / 1000)
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
+            list
         } else {
-            return safeData {
-                myDataBase.popularDao().invalidateCache(Constants.EXPIRY_TIME)
-                myDataBase.popularDao()
-                    .insertAllPopular(webService.getPopularMovies().results?.filterNotNull()!!.map {
-                        it.toPopular()
-                    })
-                myDataBase.popularDao().updateCacheTimestamp(currentTime)
-                webService.getPopularMovies().results?.filterNotNull()!!.map {
+            safeData {
+                myDataBase.popularDao().clearList()
+                val isList = webService.getPopularMovies().results?.filterNotNull()!!.map {
                     it.toPopular()
                 }
+                Log.e("TAG", "getPopularMovies: list${isList}", )
+                myDataBase.popularDao().invalidateCache(Constants.EXPIRY_TIME)
+                myDataBase.popularDao()
+                    .insertAllPopular(
+                        isList
+                    )
+                isList
             }
+
         }
+
     }
+
 }
