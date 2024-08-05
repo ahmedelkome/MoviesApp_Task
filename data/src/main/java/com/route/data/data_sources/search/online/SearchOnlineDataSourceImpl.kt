@@ -7,6 +7,7 @@ import com.route.data.database.MyDataBase
 import com.route.data.utils.Constants
 import com.route.data.utils.safeData
 import com.route.domain.models.search.Search
+import com.route.domain.models.toprated.TopRated
 import javax.inject.Inject
 
 class SearchOnlineDataSourceImpl @Inject constructor(
@@ -16,8 +17,8 @@ class SearchOnlineDataSourceImpl @Inject constructor(
     override suspend fun getSearchMovies(search: String): List<Search> {
         val list = myDataBase.searchDao().getAllSearch(search)
         val currentTime = System.currentTimeMillis() / 1000
-        val timeDifferences = currentTime - (list[0].timestamp / 1000)
-        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
+        val timeDifferences = currentTime - validTimeSearch(list)
+        return if (list == null && timeDifferences > Constants.EXPIRY_TIME) {
             list
         } else {
             safeData {
@@ -33,6 +34,13 @@ class SearchOnlineDataSourceImpl @Inject constructor(
                     )
                 isList
             }
+        }
+    }
+    fun validTimeSearch(search: List<Search>): Long {
+        return if (search.isNullOrEmpty()) {
+            0
+        } else {
+            search[0].timestamp
         }
     }
 }
