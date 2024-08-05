@@ -17,13 +17,13 @@ class TopRatedRepositoryImpl @Inject constructor(
 ) : TopRatedRepository {
     override suspend fun getTopRatedMovies(): Flow<ResultWrapper<List<TopRated>>> {
         val list = topRatedOfflineDataSource.getAllTopRated()
-        val currenttime = System.currentTimeMillis() / 1000
+        val currenttime = System.currentTimeMillis()
         val diff = currenttime - validTimeTopRated(list)
         return toflow {
-            if (diff > Constants.EXPIRY_TIME ) {
-                topRatedOnlineDataSource.getTopRatedMovies()
-            } else {
+            if (diff < Constants.EXPIRY_TIME ) {
                 topRatedOfflineDataSource.getAllTopRated()
+            } else {
+                topRatedOnlineDataSource.getTopRatedMovies()
             }
         }
     }

@@ -16,9 +16,9 @@ class TopRatedOnlineDataSourceImpl @Inject constructor(
 ) : TopRatedOnlineDataSource {
     override suspend fun getTopRatedMovies(): List<TopRated> {
         val list = myDataBase.topRatedDao().getAllTopRated()
-        val currentTime = System.currentTimeMillis() / 1000
+        val currentTime = System.currentTimeMillis()
         val timeDifferences = currentTime - validTimeTopRated(list)
-        return if (list == null && timeDifferences > Constants.EXPIRY_TIME) {
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             list
         } else {
             safeData {

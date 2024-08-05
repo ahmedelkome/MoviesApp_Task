@@ -17,13 +17,13 @@ class SearchRepositoryImpl @Inject constructor(
 ) : SearchRepository {
     override suspend fun getSearchMovies(search: String): Flow<ResultWrapper<List<Search>>> {
         val list = searchOfflineDataSource.getAllSearch(search)
-        val currenttime = System.currentTimeMillis() / 1000
+        val currenttime = System.currentTimeMillis()
         val diff = currenttime - validTimeSearch(list)
         return toflow {
-            if (diff > Constants.EXPIRY_TIME ) {
-                searchOnlineDataSource.getSearchMovies(search)
-            } else {
+            if (diff < Constants.EXPIRY_TIME ) {
                 searchOfflineDataSource.getAllSearch(search)
+            } else {
+                searchOnlineDataSource.getSearchMovies(search)
             }
         }
     }

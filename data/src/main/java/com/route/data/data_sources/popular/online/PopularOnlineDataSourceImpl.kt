@@ -17,9 +17,9 @@ class PopularOnlineDataSourceImpl @Inject constructor(
 ) : PopularOnlineDataSource {
     override suspend fun getPopularMovies(): List<Popular> {
         val list = myDataBase.popularDao().getAllPopular()
-        val currentTime = System.currentTimeMillis() / 1000
+        val currentTime = System.currentTimeMillis()
         val timeDifferences = currentTime - validTimePopular(list)
-        return if (list == null && timeDifferences > Constants.EXPIRY_TIME) {
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             list
         } else {
             safeData {

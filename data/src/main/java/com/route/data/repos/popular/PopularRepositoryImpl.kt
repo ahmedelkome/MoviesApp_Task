@@ -18,16 +18,21 @@ class PopularRepositoryImpl @Inject constructor(
 ) : PopularRepository {
     override suspend fun getPopularMovies(): Flow<ResultWrapper<List<Popular>>> {
         val list = offlineDataSource.getAllPopular()
-        val currenttime = System.currentTimeMillis() /1000
+        val currenttime = System.currentTimeMillis()
         val diff = currenttime - validTimePopular(list)
+        Log.e("TAG", "getPopularMovies current: ${currenttime}")
+        Log.e("TAG", "getPopularMovies diff: ${diff}")
+        Log.e("TAG", "getPopularMovies  valid: ${validTimePopular(list)}")
+        Log.e("TAG", "getPopularMovies expiry: ${Constants.EXPIRY_TIME}")
         return toflow {
-            if (diff > Constants.EXPIRY_TIME) {
-                onlineDataSource.getPopularMovies()
-            } else {
+            if (diff < Constants.EXPIRY_TIME) {
                 offlineDataSource.getAllPopular()
+            } else {
+                onlineDataSource.getPopularMovies()
             }
         }
     }
+
     fun validTimePopular(popular: List<Popular>): Long {
         return if (popular.isNullOrEmpty()) {
             0

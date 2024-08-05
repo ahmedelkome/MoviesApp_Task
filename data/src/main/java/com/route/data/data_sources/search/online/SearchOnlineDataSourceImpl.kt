@@ -16,9 +16,9 @@ class SearchOnlineDataSourceImpl @Inject constructor(
 ) : SearchOnlineDataSource {
     override suspend fun getSearchMovies(search: String): List<Search> {
         val list = myDataBase.searchDao().getAllSearch(search)
-        val currentTime = System.currentTimeMillis() / 1000
+        val currentTime = System.currentTimeMillis()
         val timeDifferences = currentTime - validTimeSearch(list)
-        return if (list == null && timeDifferences > Constants.EXPIRY_TIME) {
+        return if (list != null && timeDifferences < Constants.EXPIRY_TIME) {
             list
         } else {
             safeData {
